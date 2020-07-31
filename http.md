@@ -38,15 +38,38 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
         - method
 
             HTTP的请求方法，一共有9中，但GET和POST占了99%以上的使用频次。
-            - **GET**表示向服务器索取特定资源，所以请求往往没有主体部分,当然也能提交部分数据，它是通过改写URL的方式实现的。GET的数据利用URL?变量名＝变量值的方法传输。比如向 http://127.0.0.1 发送一个变量“q”，它的值为“a”。那么，实际的URL为 http://127.0.0.1?q=a 。服务器收到请求后，就可以知道"q"的值为"a"。
-            - **POST**通常用于客户端向服务器提交数据，使用POST方法时，URL不再被改写。数据位于http请求的主体。POST方法最用于提交HTML的form数据。服务器往往会对POST方法提交的数据进行一定的处理，比如存入服务器数据库。
+
+            - **GET** 表示向服务器索取特定资源，所以请求往往没有主体部分,当然也能提交部分数据，它是通过改写URL的方式实现的。GET的数据利用URL?变量名＝变量值的方法传输。比如向 http://127.0.0.1 发送一个变量“q”，它的值为“a”。那么，实际的URL为 http://127.0.0.1?q=a 。服务器收到请求后，就可以知道"q"的值为"a"。
+
+            - **POST** 通常用于客户端向服务器提交数据，使用POST方法时，URL不再被改写。数据位于http请求的主体。POST方法最用于提交HTML的form数据。服务器往往会对POST方法提交的数据进行一定的处理，比如存入服务器数据库。
 
         - uri
 
             - 用来指代请求的文件，指向服务器上的资源的路径，≠URL。
+
             - URI，全称是 Uniform Resource Identifiers，即统一资源标识符，用于在互联网上标识一个资源，而 URL 是uniform resource locator，即统一资源定位器，它是一种具体的URI，即URL可以用来标识一个资源。URL是一种具体的URI，它不仅唯一标识资源，而且还提供了定位该资源的信息。URI 是一种语义上的抽象概念，可以是绝对的，也可以是相对的，而URL则必须提供足够的信息来定位，是绝对的。
+
             - 完整的 URI，由四个主要的部分构成：
-            \<scheme\>://\<authority\>\<path\>?\<query\>
+
+                \<scheme>: //\<authority>\<path>?\<query>
+
+                - scheme 表示协议，比如 http，ftp 等等.
+                - authority，用 : // 来和 scheme 区分。从字面意思看就是“认证”，“鉴权”的意思，引用 rfc2396#secion-3.2 的一句话：
+
+                    > This authority component is typically defined by an Internet-based server or a  scheme-specific registry of naming authorities.
+
+                    这个“认证”部分，由一个基于 Internet 的服务器定义或者由命名机关注册登记（和具体的协议有关）。
+
+                    而常见的 authority 则是：“由基于 Internet 的服务器定义”，其格式如下：
+
+                    \<userinfo>@\<host>:\<port>
+
+                    userinfo 这个域用于填写一些用户相关的信息，比如可能会填写 “user:password”，当然这是不被建议的。抛开这个不讲，后面的 \<host>:\<port> 则是被熟知的服务器地址了，host 可以是域名，也可以是对应的 IP 地址，port 表示端口，这是一个可选项，如果不填写，会使用默认端口（也是和协议相关，比如 http 协议默认端口是 80）。
+
+                - path，在 scheme 和 authority 确定下来的情况下标识资源，path 由几个段组成，每个段用 / 来分隔。注意，path 不等同于文件系统定义的路径。
+
+                - query，查询串（或者说参数串），用 ? 和 path 区分开来，其具体的含义由这个具体资源来定义。
+
 
         - version
 
