@@ -46,7 +46,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
             - 用来指代请求的文件，指向服务器上的资源的路径，≠URL。
             - URI，全称是 Uniform Resource Identifiers，即统一资源标识符，用于在互联网上标识一个资源，而 URL 是uniform resource locator，即统一资源定位器，它是一种具体的URI，即URL可以用来标识一个资源。URL是一种具体的URI，它不仅唯一标识资源，而且还提供了定位该资源的信息。URI 是一种语义上的抽象概念，可以是绝对的，也可以是相对的，而URL则必须提供足够的信息来定位，是绝对的。
             - 完整的 URI，由四个主要的部分构成：
-                <scheme>://<authority><path>?<query>
+            \<scheme\>://\<authority\>\<path\>?\<query\>
 
         - version
 
