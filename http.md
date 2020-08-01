@@ -59,7 +59,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
                     ftp://host/file
                     http://domain/path
 
-                - scheme 表示协议，比如 http，ftp 等等.
+                - **scheme 表示协议，比如 http，ftp 等等.
                 - authority，用 : // 来和 scheme 区分。从字面意思看就是“认证”，“鉴权”的意思，引用 rfc2396#secion-3.2 的一句话：
 
                     > This authority component is typically defined by an Internet-based server or a  scheme-specific registry of naming authorities.
@@ -72,7 +72,7 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
 
                     userinfo 这个域用于填写一些用户相关的信息，比如可能会填写 “user:password”，当然这是不被建议的。抛开这个不讲，后面的 \<host>:\<port> 则是被熟知的服务器地址了，host 可以是域名，也可以是对应的 IP 地址，port 表示端口，这是一个可选项，如果不填写，会使用默认端口（也是和协议相关，比如 http 协议默认端口是 80）。
 
-                - path，在 scheme 和 authority 确定下来的情况下标识资源，path 由几个段组成，每个段用 / 来分隔。注意，path 不等同于文件系统定义的路径。
+                - **path**，在 scheme 和 authority 确定下来的情况下标识资源，path 由几个段组成，每个段用 / 来分隔。注意，path 不等同于文件系统定义的路径。
 
                 - query，查询串（或者说参数串），用 ? 和 path 区分开来，其具体的含义由这个具体资源来定义。
 
@@ -80,6 +80,21 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
         - version
 
             HTTP协议的版本，该字段有HTTP/1.0和HTTP/1.1两种。
+        - 举例：
+        1. 百度主页： `https://www.baidu.com` (等同于 `https://www.baidu.com/`)
+
+            Request header：startline: `GET / HTTP/1.1`
+
+            其中 `path = /` 即默认路径，`host:www.baidu.com` 所以 URI (可能)为：`https://www.baidu.com/index.html`
+
+        2. 搜索 “玉兔” ：`https://www.baidu.com/s?wd=%E7%8E%89%E5%85%94&rsv_spt=1&rsv_iqid=0xfd8fbe58003fcf66&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=6&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&rsv_btype=i&inputT=1799&rsv_sug4=3257`
+
+            Request header：startline: `GET /s?wd=%E7%8E%89%E5%85%94&rsv_spt=1&rsv_iqid=0xfd8fbe58003fcf66&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=6&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&rsv_btype=i&inputT=1799&rsv_sug4=3257 HTTP/1.1`
+
+            其中 `path = /s` , `query = wd=%E7%8E%89%E5%85%94&rsv_spt=1&rsv_iqid=0xfd8fbe58003fcf66&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=6&rsv_sug1=4&rsv_sug7=100&rsv_sug2=0&rsv_btype=i&inputT=1799&rsv_sug4=3257 HTTP/1.1`,为请求资源的信息，query 中 `wd=%E7%8E%89%E5%85%94` 为搜索内容“玉兔”的URL编码（UFT-编码加 % ）。
+
+            path 与 query 之间以 `?`分割。
+
 
     - 请求头（多行）
 
@@ -160,10 +175,12 @@ HTTP协议工作在应用层，端口号是80。HTTP协议被用于网络中两�
     - 信息体（多行）
 
         实际有效数据，通常是HTML格式的文件，该文件被浏览器获取到之后解析呈现在浏览器中。
+    
+    **CGI与环境变量**
 
     **会话机制**
 
-    HTTP作为**无状态协议**，必然需要在某种方式保持连接状态。这里简要介绍一下Cookie和Session。
+    HTTP作为**无状态协议**，无论是服务器还是客户都不会记住之前的交流。举个例子，仅依靠 HTTP，一个服务器不能记住你输入的密码或者你正处于业务中的哪一步。所以必然需要某种方式保持连接状态。这里简要介绍一下Cookie和Session。
 
     - 根据早期的HTTP协议（HTTP1.0），每次request-reponse时，都要重新建立TCP连接。TCP连接每次都重新建立，所以服务器无法知道上次请求和本次请求是否来自于同一个客户端。因此，HTTP通信是无状态(stateless)的。服务器认为每次请求都是一 个全新的请求，无论该请求是否来自同一地址。
     - 随着HTTP协议的发展（HTTP1.1），HTTP协议允许TCP连接复用，以节省建立连接所耗费的时间。但HTTP协议依然保持无状态的特性。
